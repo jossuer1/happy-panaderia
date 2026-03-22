@@ -1,0 +1,16 @@
+# Archivos de compilación .NET
+bin/
+obj/
+
+# Node (cuando hagas React)
+node_modules/
+
+# Archivos sensibles
+.env
+appsettings.Development.json
+
+# VS Code
+.vscode/
+
+# Otros
+*.log

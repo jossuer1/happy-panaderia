@@ -1,0 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using HappyPanaderia.Api.Data;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Agregar controladores
+builder.Services.AddControllers();
+
+// Conexión a MySQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(
+        "server=b7lgdbwyyeqqzzj1qpyg-mysql.services.clever-cloud.com;port=3306;database=b7lgdbwyyeqqzzj1qpyg;user=usqpe0lmjrsjz91x;password=LAHQhEN9JejJo76Khtgh",
+        ServerVersion.AutoDetect("server=b7lgdbwyyeqqzzj1qpyg-mysql.services.clever-cloud.com;port=3306;database=b7lgdbwyyeqqzzj1qpyg;user=usqpe0lmjrsjz91x;password=LAHQhEN9JejJo76Khtgh")
+    )
+);
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+
+// Mapear controllers
+app.MapControllers();
+
+app.Run();
