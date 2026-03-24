@@ -1,9 +1,11 @@
 namespace HappyPanaderia.Api.Models;
 
+using HappyPanaderia.Api.Models;
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("detalles_factura")]
-public class Detalle_Factura
+public class DetalleFactura
 {
     [Column("id_detalle")]
     public int Id { get; set; }
@@ -15,4 +17,7 @@ public class Detalle_Factura
     public int Cantidad { get; set; }
     [Column("precio_unitario")]
     public decimal PrecioUnitario { get; set; }
+
+    // Relaciones
+    public Factura? Factura { get; set; }
 }
