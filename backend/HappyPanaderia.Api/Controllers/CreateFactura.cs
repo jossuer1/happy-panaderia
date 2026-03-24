@@ -78,11 +78,32 @@ public class FacturasController : ControllerBase
         return CreatedAtAction(nameof(GetFactura), new { id = factura.Id }, factura);
     }
 
-    // MÉTODO PARA OBTENER UNA FACTURA POR ID (USADO EN CreatedAtAction)
+    // MÉTODO PARA OBTENER UNA FACTURA POR ID 
     [HttpGet("{id}")]
     public IActionResult GetFactura(int id)
     {
-        var factura = _context.Facturas.Find(id);
+        var factura = _context.Facturas
+            .Where(f => f.Id == id)
+            .Select(f => new
+            {
+                f.Id,
+                f.IdCliente,
+                f.Fecha,
+                f.Total,
+                f.Iva,
+                Detalles = f.Detalles.Select(d => new
+                {
+                    d.Id,
+                    d.IdProducto,
+                    NombreProducto = _context.Productos
+                        .Where(p => p.Id == d.IdProducto)
+                        .Select(p => p.Nombre)
+                        .FirstOrDefault(),
+                    d.Cantidad,
+                    d.PrecioUnitario
+                }).ToList()
+            })
+            .FirstOrDefault();
 
         if (factura == null)
         {

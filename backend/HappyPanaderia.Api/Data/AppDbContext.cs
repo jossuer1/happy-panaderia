@@ -12,6 +12,6 @@ public class AppDbContext : DbContext
     public DbSet<Producto> Productos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Factura> Facturas { get; set; }
-    public DbSet<Detalle_Factura> DetallesFactura { get; set; }
+    public DbSet<DetalleFactura> DetallesFactura { get; set; }
 
 }
