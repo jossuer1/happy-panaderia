@@ -1,62 +1,56 @@
 import React, { useEffect, useState } from "react";
 
+import TablaProductos from "./TablaProductos";
+import FormularioProducto from "./FormularioProductos";
+
 import { ApiUrl } from "../../services/apirest";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const Producto = () => {
+  const [modo, setModo] = useState("crear");
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [producto, setProducto] = useState([]);
-  const navigate = useNavigate();
 
-  const clicProducto = (producto) => {
-    navigate("/actualizar/" + producto.id, { state: { producto } });
+  const handleEditar = (producto) => {
+    setProductoSeleccionado(producto);
+    setModo("editar");
+  };
+
+  const handleCancelar = () => {
+    setModo("crear");
+    setProductoSeleccionado(null);
   };
 
   useEffect(() => {
-    axios.get(ApiUrl + "productos").then((response) => {
-      setProducto(response.data);
+    axios.get(ApiUrl + "productos").then((res) => {
+      setProducto(res.data);
     });
   }, []);
 
+  const recargar = () => {
+    axios.get(ApiUrl + "productos").then((res) => {
+      setProducto(res.data);
+      setModo("crear");
+      setProductoSeleccionado(null);
+    });
+  };
   return (
-    <div className="container">
-      <h1 className="mt-3">Tabla Productos</h1>
-
-      <p> * Para poder editar un producto, haga clic en su fila. * </p>
-
-      <div className="col-sm-6">
-        <button className="btn btn-success" onClick={() => navigate("/nuevo")}>
-          Nuevo Producto
-        </button>
+    <div className="row">
+      <div className="col-md-7">
+        <TablaProductos onEditar={handleEditar} productos={producto} />
       </div>
 
-      <table className="table table-hover mt-4">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Categoria</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {producto.map((value) => (
-            <tr
-              key={value.id}
-              style={{ cursor: "pointer" }}
-              onClick={() => clicProducto(value)}
-            >
-              <td>{value.id}</td>
-              <td>{value.nombre}</td>
-              <td>{value.categoria}</td>
-              <td>{value.precio}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="col-md-5">
+        <br />
+        <FormularioProducto
+          modo={modo}
+          productoSeleccionado={productoSeleccionado}
+          onGuardado={recargar}
+          onCancelar={handleCancelar}
+        />
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Producto;
