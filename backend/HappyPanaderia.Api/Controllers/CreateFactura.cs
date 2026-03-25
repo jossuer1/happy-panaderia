@@ -20,40 +20,26 @@ public class FacturasController : ControllerBase
     [HttpPost]
     public IActionResult CreateFactura([FromBody] CreateFacturaDto facturaDto)
     {
-        // 1. VALIDAR QUE HAYA PRODUCTOS
-        if (facturaDto.Detalles == null || !facturaDto.Detalles.Any())
+        if (facturaDto == null || facturaDto.Detalles == null || !facturaDto.Detalles.Any())
         {
-            return BadRequest("La factura debe tener al menos un producto.");
+            return BadRequest("La factura no tiene productos.");
         }
 
-        decimal total = 0;
-
-        // 2. CREAR FACTURA VACÍA
         var factura = new Factura
         {
-            IdCliente = facturaDto.ClienteId,
+            IdCliente = facturaDto.ClienteId, // Soporta null correctamente
             Fecha = DateTime.Now,
-            Detalles = new List<DetalleFactura>() // importante inicializar
+            Detalles = new List<DetalleFactura>()
         };
 
-        // 3. RECORRER LOS PRODUCTOS DEL DTO
+        decimal subtotalGeneral = 0;
+
         foreach (var item in facturaDto.Detalles)
         {
-            // 4. BUSCAR EL PRODUCTO REAL EN LA BD
+            // Importante: item.ProductoId debe venir del JSON
             var producto = _context.Productos.Find(item.ProductoId);
+            if (producto == null) return BadRequest($"El producto con ID {item.ProductoId} no existe.");
 
-            if (producto == null)
-            {
-                return BadRequest($"Producto con id {item.ProductoId} no existe.");
-            }
-
-            // 5. CALCULAR SUBTOTAL
-            var subtotal = producto.Precio * item.Cantidad;
-
-            // 6. SUMAR AL TOTAL
-            total += subtotal;
-
-            // 7. CREAR DETALLE CON PRECIO REAL
             var detalle = new DetalleFactura
             {
                 IdProducto = producto.Id,
@@ -61,57 +47,71 @@ public class FacturasController : ControllerBase
                 PrecioUnitario = producto.Precio
             };
 
+            subtotalGeneral += (producto.Precio * item.Cantidad);
             factura.Detalles.Add(detalle);
         }
 
-        // 8. CALCULAR IVA (15%)
-        var iva = total * 0.15m;
+        factura.Iva = subtotalGeneral * 0.15m;
+        factura.Total = subtotalGeneral + factura.Iva;
 
-        factura.Iva = iva;
-        factura.Total = total + iva;
+        try
+        {
+            foreach (var d in factura.Detalles)
+            {
+                d.Factura = null;
+            }
+            _context.Facturas.Add(factura);
+            _context.SaveChanges();
 
-        // 9. GUARDAR TODO
-        _context.Facturas.Add(factura);
-        _context.SaveChanges();
-
-        // 10. RESPUESTA
-        return CreatedAtAction(nameof(GetFactura), new { id = factura.Id }, factura);
+            var resultado = ObtenerFacturaLimpia(factura.Id);
+            return Ok(resultado);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error interno: {ex.Message}");
+        }
     }
 
-    // MÉTODO PARA OBTENER UNA FACTURA POR ID 
-    [HttpGet("{id}")]
-    public IActionResult GetFactura(int id)
+    // Método auxiliar privado para no repetir código y que sea seguro
+    private object? ObtenerFacturaLimpia(int id)
     {
-        var factura = _context.Facturas
+        return _context.Facturas
             .Where(f => f.Id == id)
             .Select(f => new
             {
                 f.Id,
                 f.IdCliente,
+
+                NombreCliente = f.IdCliente == null
+                    ? "Consumidor Final"
+                    : _context.Clientes
+                        .Where(c => c.Id == f.IdCliente)
+                        .Select(c => c.Nombre)
+                        .FirstOrDefault(),
                 f.Fecha,
-                f.Total,
                 f.Iva,
+                f.Total,
                 Detalles = f.Detalles.Select(d => new
                 {
-                    d.Id,
                     d.IdProducto,
+                    // Buscamos el nombre manualmente en la tabla Productos
                     NombreProducto = _context.Productos
                         .Where(p => p.Id == d.IdProducto)
                         .Select(p => p.Nombre)
                         .FirstOrDefault(),
                     d.Cantidad,
-                    d.PrecioUnitario
+                    d.PrecioUnitario,
+                    Subtotal = d.Cantidad * d.PrecioUnitario
                 }).ToList()
             })
             .FirstOrDefault();
+    }
 
-        if (factura == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(factura);
+    [HttpGet("{id}")]
+    public IActionResult GetFactura(int id)
+    {
+        var factura = ObtenerFacturaLimpia(id);
+        return factura == null ? NotFound() : Ok(factura);
     }
 
 }
-

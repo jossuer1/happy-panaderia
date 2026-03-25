@@ -4,7 +4,7 @@ using HappyPanaderia.Api.Models;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("detalles_factura")]
+[Table("Detalles_Factura")]
 public class DetalleFactura
 {
     [Column("id_detalle")]
@@ -19,5 +19,6 @@ public class DetalleFactura
     public decimal PrecioUnitario { get; set; }
 
     // Relaciones
+    [ForeignKey("IdFactura")]
     public Factura? Factura { get; set; }
 }

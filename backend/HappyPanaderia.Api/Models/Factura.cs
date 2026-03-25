@@ -2,7 +2,7 @@ namespace HappyPanaderia.Api.Models;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("facturas")]
+[Table("Facturas")]
 public class Factura
 {
     [Column("id_factura")]

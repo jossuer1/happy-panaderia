@@ -12,7 +12,7 @@ import Producto from "./components/Producto/Producto.jsx";
 // Clientes CRUD
 import Cliente from "./components/Cliente/Cliente.jsx";
 // Ventas CRUD
-// import Venta from "./components/Venta/Venta.jsx";
+import Venta from "./components/Ventas/Venta.jsx";
 
 import Header from "./template/Header.jsx";
 import pan from "./assets/img/panaderia.jpg";
@@ -35,6 +35,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/producto" element={<Producto />} />
           <Route path="/cliente" element={<Cliente />} />
+          <Route path="/venta" element={<Venta />} />
         </Routes>
 
         <ToastContainer />
