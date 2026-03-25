@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { ApiUrl } from "../../services/apirest";
 import axios from "axios";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const FormularioProducto = ({
   modo,
   productoSeleccionado,
@@ -39,18 +42,24 @@ const FormularioProducto = ({
 
     const precio = parseFloat(producto.precio);
     if (isNaN(precio) || precio < 0 || precio > 100) {
-      alert("El precio debe ser entre 0 y 100");
+      toast.error("El precio debe ser entre 0 y 100", {
+        position: "bottom-right",
+      });
       return;
     }
 
     if (modo === "editar") {
       axios.put(`${ApiUrl}productos/${producto.id}`, producto).then(() => {
-        alert("Producto actualizado!");
+        toast.info("Producto actualizado!", {
+          position: "bottom-right",
+        });
         onGuardado();
       });
     } else {
       axios.post(`${ApiUrl}productos`, producto).then(() => {
-        alert("Producto agregado!");
+        toast.success("Producto agregado!", {
+          position: "bottom-right",
+        });
         onGuardado();
       });
     }
@@ -68,7 +77,9 @@ const FormularioProducto = ({
 
     if (window.confirm("¿Eliminar producto?")) {
       axios.delete(`${ApiUrl}productos/${producto.id}`).then(() => {
-        alert("Producto eliminado!");
+        toast.error("Producto eliminado!", {
+          position: "bottom-right",
+        });
         onGuardado();
       });
     }
@@ -77,7 +88,6 @@ const FormularioProducto = ({
   return (
     <div>
       <h4>{modo === "editar" ? " Editando producto" : "Nuevo producto"}</h4>
-
       <form onSubmit={handleSubmit}>
         <input
           name="nombre"
@@ -131,9 +141,6 @@ const FormularioProducto = ({
           <button className="btn btn-success">Guardar</button>
         )}
       </form>
-      <p className="text-uppercase text-decoration-underline fs-6">
-        Edita o Elimina un producto haciendo click en su fila
-      </p>
     </div>
   );
 };
