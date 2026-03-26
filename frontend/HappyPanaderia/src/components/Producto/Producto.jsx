@@ -36,10 +36,6 @@ const Producto = () => {
   };
   return (
     <div className="row">
-      <div className="col-md-7">
-        <TablaProductos onEditar={handleEditar} productos={producto} />
-      </div>
-
       <div className="col-md-5">
         <br />
         <FormularioProducto
@@ -48,6 +44,9 @@ const Producto = () => {
           onGuardado={recargar}
           onCancelar={handleCancelar}
         />
+      </div>
+      <div className="col-md-7">
+        <TablaProductos onEditar={handleEditar} productos={producto} />
       </div>
     </div>
   );

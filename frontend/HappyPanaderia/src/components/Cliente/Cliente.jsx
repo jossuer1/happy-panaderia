@@ -38,17 +38,17 @@ const Cliente = () => {
 
   return (
     <div className="row">
-      <div className="col-md-7">
-        <TablaCliente onEditar={handleEditar} clientes={clientes} />
-      </div>
-
       <div className="col-md-5">
+        <br />
         <FormularioCliente
           modo={modo}
           clienteSeleccionado={clienteSeleccionado}
           onGuardado={recargar}
           onCancelar={handleCancelar}
         />
+      </div>
+      <div className="col-md-7">
+        <TablaCliente onEditar={handleEditar} clientes={clientes} />
       </div>
     </div>
   );
