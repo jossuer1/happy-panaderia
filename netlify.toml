@@ -1,0 +1,4 @@
+[build]
+  base = "frontend/HappyPanaderia"
+  publish = "dist"
+  command = "npm run build"
