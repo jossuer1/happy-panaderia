@@ -64,58 +64,115 @@ const FormularioCliente = ({
   };
 
   return (
-    <div>
-      <h4>{modo === "editar" ? "Editando cliente" : "Nuevo cliente"}</h4>
+    /* 1. Cambiamos 'card shadow border-0' por 'glass-card' */
+    <div className="glass-card border-0">
+      {/* 2. Suavizamos el header: quitamos bg-success/warning y usamos estilos en línea o clases sutiles */}
+      <div
+        className="card-header border-0 text-white"
+        style={{
+          backgroundColor: modo === "editar" ? "#d35400" : "#8fa382",
+          borderTopLeftRadius: "12px",
+          borderTopRightRadius: "12px",
+        }}
+      >
+        <h5 className="mb-0 py-1">
+          {modo === "editar" ? "Editando Cliente" : " Nuevo Cliente"}
+        </h5>
+      </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="nombre"
-          className="form-control mb-2"
-          placeholder="Nombre"
-          value={cliente.nombre}
-          onChange={handleChange}
-        />
+      <div className="card-body p-4">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label text-muted small fw-bold">
+              Nombre Completo
+            </label>
+            <div className="input-group">
+              <span className="input-group-text border-0 bg-light">
+                <i className="bi bi-person text-secondary"></i>
+              </span>
+              {/* 3. Añadimos 'border-0 bg-light' a los inputs para eliminar el borde negro fuerte */}
+              <input
+                name="nombre"
+                className="form-control border-0 bg-light"
+                placeholder="Ej. Juan Pérez"
+                value={cliente.nombre}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-        <input
-          name="cedula"
-          className="form-control mb-2"
-          placeholder="Cedula o RUC"
-          value={cliente.cedula}
-          onChange={handleChange}
-        />
+          <div className="mb-3">
+            <label className="form-label text-muted small fw-bold">
+              Cédula o RUC
+            </label>
+            <div className="input-group">
+              <span className="input-group-text border-0 bg-light">
+                <i className="bi bi-card-text text-secondary"></i>
+              </span>
+              <input
+                name="cedula"
+                className="form-control border-0 bg-light"
+                placeholder="172xxxxxxx"
+                value={cliente.cedula}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-        <input
-          name="direccion"
-          className="form-control mb-3"
-          placeholder="Dirección"
-          value={cliente.direccion}
-          onChange={handleChange}
-        />
+          <div className="mb-4">
+            <label className="form-label text-muted small fw-bold">
+              Dirección de Domicilio
+            </label>
+            <div className="input-group">
+              <span className="input-group-text border-0 bg-light">
+                <i className="bi bi-geo-alt text-secondary"></i>
+              </span>
+              <input
+                name="direccion"
+                className="form-control border-0 bg-light"
+                placeholder="Calle Principal y Secundaria"
+                value={cliente.direccion}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-        {modo === "editar" ? (
-          <>
-            <button className="btn btn-primary me-2">Actualizar</button>
-
-            <button
-              type="button"
-              className="btn btn-danger me-2"
-              onClick={() => handleDelete(cliente)}
-            >
-              Eliminar
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={onCancelar}
-            >
-              Cancelar
-            </button>
-          </>
-        ) : (
-          <button className="btn btn-success">Guardar</button>
-        )}
-      </form>
+          <div className="d-grid gap-2">
+            {modo === "editar" ? (
+              <div className="row g-2">
+                <div className="col-12">
+                  <button className="btn btn-primary w-100 shadow-sm border-0">
+                    Actualizar Cliente
+                  </button>
+                </div>
+                <div className="col-6">
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger w-100 border-2"
+                    onClick={() => handleDelete(cliente)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+                <div className="col-6">
+                  <button
+                    type="button"
+                    className="btn btn-light w-100 border-0"
+                    onClick={onCancelar}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* 4. Usamos la clase 'btn-pan' que definimos en el CSS */
+              <button className="btn btn-pan btn-lg shadow-sm">
+                Guardar Cliente
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

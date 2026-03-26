@@ -12,25 +12,46 @@ const ListaProductos = ({ agregarAlCarrito }) => {
   }, []);
 
   return (
-    <div className="container">
-      <h3>Lista de Productos</h3>
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
+    /* 1. Usamos glass-card para que combine con el fondo */
+    <div className="glass-card p-3 shadow-sm">
+      <h5 className="mb-3" style={{ color: "#5d4037" }}>
+        Seleccionar Productos
+      </h5>
 
-        <tbody>
-          {productos.map((p) => (
-            <tr key={p.id} onClick={() => agregarAlCarrito(p)}>
-              <td>{p.nombre}</td>
-              <td>${p.precio.toFixed(2)}</td>
+      {/* 2. Añadimos un scroll interno por si la lista es muy larga */}
+      <div
+        className="table-responsive"
+        style={{ maxHeight: "400px", overflowY: "auto" }}
+      >
+        <table className="table table-custom table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th className="text-end pe-3">Precio</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {productos.map((p) => (
+              <tr
+                key={p.id}
+                onClick={() => agregarAlCarrito(p)}
+                style={{ cursor: "pointer", transition: "0.2s" }}
+              >
+                <td>
+                  <div className="fw-bold">{p.nombre}</div>
+                  <small className="text-muted">{p.categoria}</small>
+                </td>
+                <td className="text-end pe-3 align-middle">
+                  <span className="badge bg-light text-success border fw-bold">
+                    ${p.precio.toFixed(2)}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

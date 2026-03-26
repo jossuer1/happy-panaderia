@@ -1,0 +1,39 @@
+/* Efecto de Vidrio para Contenedores */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07) !important;
+}
+
+/* Colores Tierra para el Header */
+.navbar-custom {
+  background-color: rgba(43, 30, 22, 0.88) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid #d35400; /* Un detalle naranja pan */
+}
+
+/* Botones con estilo artesanal */
+.btn-pan {
+  background-color: #8fa382 !important; /* Verde Salvia suave */
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+}
+
+.btn-pan:hover {
+  background-color: #7a8c6e !important;
+  transform: translateY(-1px);
+}
+
+/* Suavizar las tablas */
+.table-custom thead {
+  background-color: #fdf2e9 !important; /* Crema muy suave */
+  color: #5d4037 !important;
+}
+
+.table-custom tbody tr:hover {
+  background-color: rgba(211, 84, 0, 0.05) !important;
+}
