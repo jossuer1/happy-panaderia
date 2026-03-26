@@ -22,13 +22,13 @@ const Producto = () => {
   };
 
   useEffect(() => {
-    axios.get(ApiUrl + "productos").then((res) => {
+    axios.get(ApiUrl + "Productos").then((res) => {
       setProducto(res.data);
     });
   }, []);
 
   const recargar = () => {
-    axios.get(ApiUrl + "productos").then((res) => {
+    axios.get(ApiUrl + "Productos").then((res) => {
       setProducto(res.data);
       setModo("crear");
       setProductoSeleccionado(null);

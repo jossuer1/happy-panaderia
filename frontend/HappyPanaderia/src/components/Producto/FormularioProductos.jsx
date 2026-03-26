@@ -46,12 +46,12 @@ const FormularioProducto = ({
     }
 
     if (modo === "editar") {
-      axios.put(`${ApiUrl}productos/${producto.id}`, producto).then(() => {
+      axios.put(`${ApiUrl}Productos/${producto.id}`, producto).then(() => {
         toast.info("Producto actualizado!", { position: "bottom-right" });
         onGuardado();
       });
     } else {
-      axios.post(`${ApiUrl}productos`, producto).then(() => {
+      axios.post(`${ApiUrl}Productos`, producto).then(() => {
         toast.success("Producto agregado!", { position: "bottom-right" });
         onGuardado();
       });
@@ -67,7 +67,7 @@ const FormularioProducto = ({
   const handleDelete = () => {
     if (!producto.id) return;
     if (window.confirm("¿Eliminar producto?")) {
-      axios.delete(`${ApiUrl}productos/${producto.id}`).then(() => {
+      axios.delete(`${ApiUrl}Productos/${producto.id}`).then(() => {
         toast.error("Producto eliminado!", { position: "bottom-right" });
         onGuardado();
       });

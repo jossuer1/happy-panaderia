@@ -40,7 +40,7 @@ const ModalPago = ({ onClose, onProcesar }) => {
           <div className="modal-content glass-card border-0 shadow-lg">
             <div className="modal-header border-0 pb-0">
               <h5 className="modal-title fw-bold" style={{ color: "#5d4037" }}>
-                🥖 Finalizar Venta
+                Finalizar Venta
               </h5>
               <button
                 type="button"

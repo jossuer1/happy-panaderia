@@ -6,7 +6,7 @@ const ListaProductos = ({ agregarAlCarrito }) => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    axios.get(ApiUrl + "productos").then((res) => {
+    axios.get(ApiUrl + "Productos").then((res) => {
       setProductos(res.data);
     });
   }, []);

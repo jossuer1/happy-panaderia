@@ -43,7 +43,7 @@ const Venta = () => {
     };
 
     try {
-      const res = await axios.post(ApiUrl + "facturas", data);
+      const res = await axios.post(ApiUrl + "Facturas", data);
 
       setFactura(res.data); // guardar factura
       setCarrito([]); // limpiar carrito

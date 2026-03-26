@@ -45,14 +45,14 @@ const FormularioCliente = ({
     }
 
     if (modo === "editar") {
-      axios.put(`${ApiUrl}clientes/${cliente.id}`, cliente).then(() => {
+      axios.put(`${ApiUrl}Clientes/${cliente.id}`, cliente).then(() => {
         toast.info("Cliente actualizado!", {
           position: "bottom-right",
         });
         onGuardado();
       });
     } else {
-      axios.post(`${ApiUrl}clientes`, cliente).then(() => {
+      axios.post(`${ApiUrl}Clientes`, cliente).then(() => {
         toast.success("Cliente agregado!", {
           position: "bottom-right",
         });

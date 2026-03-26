@@ -21,7 +21,7 @@ const Cliente = () => {
   };
 
   const obtenerClientes = () => {
-    axios.get(ApiUrl + "clientes").then((res) => {
+    axios.get(ApiUrl + "Clientes").then((res) => {
       setClientes(res.data);
     });
   };
