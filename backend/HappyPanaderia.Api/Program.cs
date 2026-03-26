@@ -27,7 +27,7 @@ var app = builder.Build();
 
 app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 // Mapear controllers
 app.MapControllers();
