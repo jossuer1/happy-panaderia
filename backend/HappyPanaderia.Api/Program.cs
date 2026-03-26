@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Agregar controladores
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
@@ -31,6 +33,9 @@ app.UseCors("AllowAll");
 
 // Mapear controllers
 app.MapControllers();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
 app.Run($"http://0.0.0.0:{port}");
