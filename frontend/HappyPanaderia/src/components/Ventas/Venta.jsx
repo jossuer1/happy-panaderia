@@ -76,6 +76,7 @@ const Venta = () => {
           setCarrito={setCarrito}
           onPagar={() => setMostrarPago(true)}
         />
+        <br />
       </div>
 
       {mostrarPago && (
