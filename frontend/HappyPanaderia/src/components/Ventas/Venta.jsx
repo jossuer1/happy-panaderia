@@ -70,10 +70,6 @@ const Venta = () => {
   // SI NO → SISTEMA NORMAL
   return (
     <div className="row">
-      <div className="col-md-7">
-        <ListaProductos agregarAlCarrito={agregarAlCarrito} />
-      </div>
-
       <div className="col-md-5">
         <Carrito
           carrito={carrito}
@@ -89,6 +85,10 @@ const Venta = () => {
           onProcesar={procesarVenta} // Aquí se llama a la función que procesa la venta
         />
       )}
+
+      <div className="col-md-7">
+        <ListaProductos agregarAlCarrito={agregarAlCarrito} />
+      </div>
     </div>
   );
 };
