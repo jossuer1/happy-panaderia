@@ -25,7 +25,7 @@ const TablaCliente = ({ clientes, onEditar }) => {
                 onClick={() => onEditar(value)}
                 style={{ cursor: "pointer" }}
               >
-                <td>{value.id}</td>
+                <td>#{value.id}</td>
                 <td>{value.nombre}</td>
                 <td>{value.cedula}</td>
                 <td>{value.direccion}</td>
